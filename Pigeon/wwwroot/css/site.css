@@ -14,5 +14,144 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    background-color: #fee440;
+}
+
+
+svg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index:-10;
+}
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.out-top {
+    animation: rotate 20s linear infinite;
+    transform-origin: 13px 25px;
+}
+
+.in-top {
+    animation: rotate 10s linear infinite;
+    transform-origin: 13px 25px;
+}
+
+.out-bottom {
+    animation: rotate 25s linear infinite;
+    transform-origin: 84px 93px;
+}
+
+.in-bottom {
+    animation: rotate 15s linear infinite;
+    transform-origin: 84px 93px;
+}
+
+.navbar{
+    max-width:50vw;
+    margin: 2.5rem auto;
+    border-radius: 20px;
+    padding: 1rem;
+}
+
+.main-container{
+    width: min-content;
+    min-height: calc(100vh - 70px);
+}
+
+.form-container {
+    background-color: #fee2f8;
+    background-image: linear-gradient(90deg, #fee2f8 0%, #dcf8ef 74%);
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.4);
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.inputs-container{
+    display: flex;
+    flex-direction: column;
+    gap:36px;
+    width: 28rem;
+}
+
+    .inputs-container input[type=email], input[type=password] {
+        background-color: rgba(0,0,0,0) !important;
+        border: none;
+        border-bottom: 1px solid rgba(0,0,0,0.5);
+        outline: none;
+            padding:4px;
+    }
+
+        .inputs-container input[type=email]:focus, input[type=password]:focus {
+            border-color: blue;
+        }
+
+    .inputs-container input[type=checkbox]{
+        cursor:pointer;
+    }
+
+
+        .submit-button-container {
+            margin: auto;
+        }
+
+    .submit-button-container button {
+        padding: 12px 32px;
+        border-radius: 32px;
+        border:none;
+        transition: all .4s ease-in-out;
+        background-size: 300% 100%;
+        background-image: linear-gradient(to right, #fff, #e5f6f3);
+        box-shadow: 0 0px 0px 1px rgba(45, 54, 65, 0.45);
+    }
+
+        .submit-button-container button:hover {
+            background-position: 100% 0;
+        }
+
+
+.privacy-parent-container {
+    background-color: #fee2f8;
+    background-image: linear-gradient(90deg, #fee2f8 0%, #dcf8ef 74%);
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.4);
+    width: 70vw;
+    margin-top: 4rem;
+    border-radius: 20px;
+    padding: 3rem;
+}
+
+.footer-container {
+    padding: 6px;
+    margin-top:2rem;
+    border:none;
+    max-width:300px;
+    margin: auto;
+    color:black;
+}
+
+.footer-container span{
+    color: black;
+}
+
+.access-denied{
+margin-top:10rem;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+min-width: 50vw;
+background-color: white;
+padding: 2.5rem;
+border-radius: 24px;
 }

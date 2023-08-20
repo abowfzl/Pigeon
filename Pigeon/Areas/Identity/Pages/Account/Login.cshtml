@@ -4,9 +4,9 @@
 @{
     ViewData["Title"] = "Log in";
 }
-<div class="t-login w-100 h-vh">
+<div class="t-login h-vh form-container">
     <section class="t-login__container px-3 py-sm-auto">
-        <form id="account" class="w-100" method="post">
+        <form id="account" method="post">
 @*            <div class="text-center">
 
                 <a href="#">
@@ -18,14 +18,15 @@
             <h1 class="t-24 clr-dark-100 fw-bold text-center mt-2">Login</h1>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="d-flex flex-column mt-45">
+            <div class="inputs-container">
+            <div class="d-flex flex-column">
                 <label class="clr-dark-100 t-14" asp-for="Input.Email">Email</label>
-                <input class="p-input p-input--primary" type="email" asp-for="Input.Email" placeholder="ex: 1234@gmail.com" />
+                <input class="p-input p-input--primary" type="email" asp-for="Input.Email" placeholder="1234@gmail.com" />
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
-            <div class="d-flex flex-column mt-45">
+            <div class="d-flex flex-column">
                 <label class="clr-dark-100 t-14" asp-for="Input.Password">Password</label>
-                <input class="p-input p-input--primary" type="password" asp-for="Input.Password" />
+                    <input class="p-input p-input--primary" type="password" asp-for="Input.Password" placeholder="******" />
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
 
@@ -37,9 +38,9 @@
                     </label>
                 </div>
             </div>
-            <div>
-                <button class="p-btn p-btn--primary fw-bold w-100 mt-45" type="submit">
-                    Log in
+                <div class="submit-button-container">
+                <button class="p-btn p-btn--primary fw-bold mt-45" type="submit">
+                    Submit
                 </button>
             </div>
             <div>
@@ -49,6 +50,7 @@
                 <p>
                     <a class="p-btn w-100 t-14 clr-dark-100 border-light-1 rounded-12 mt-2" id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
                 </p>
+            </div>
             </div>
         </form>
     </section>
