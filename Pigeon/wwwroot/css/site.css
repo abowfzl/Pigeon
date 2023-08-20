@@ -143,3 +143,15 @@ svg {
 .footer-container span{
     color: black;
 }
+
+.access-denied{
+margin-top:10rem;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+min-width: 50vw;
+background-color: white;
+padding: 2.5rem;
+border-radius: 24px;
+}
