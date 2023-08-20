@@ -57,7 +57,8 @@ svg {
 }
 
 .navbar{
-    max-width:50vw;
+    min-width: 600px;
+    max-width:55vw;    
     margin: 2.5rem auto;
     border-radius: 20px;
     padding: 1rem;
@@ -68,10 +69,53 @@ svg {
     min-height: calc(100vh - 70px);
 }
 
-.form-container {
+.nav-item{
+    font-size: 14px;
+}
+
+.nav-link{
+    font-size: 14px;
+}
+
+
+.main-container main{
+    min-width: 55vw;
     background-color: #fee2f8;
     background-image: linear-gradient(90deg, #fee2f8 0%, #dcf8ef 74%);
     box-shadow: 0px 5px 15px rgba(0,0,0,0.4);
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.main-container main .row,.col-md-4{
+    width: 100%;
+}
+
+.main-container main .row,.col-md-6{
+    width: 100%;
+}
+
+.main-container main .col-md-6 form{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+
+.main-container main form{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.main-container main form button{
+    flex-basis: 40%;
+}
+
+.main-container main .form-container form{
+    max-width: 55vw;
+    min-width: 600px;
     display: flex;
     flex-direction: column;
     border-radius: 20px;
@@ -79,11 +123,23 @@ svg {
 }
 
 .inputs-container{
+    width: 100% !important;
     display: flex;
     flex-direction: column;
     gap:36px;
-    width: 28rem;
 }
+.inputs-container a{
+    text-decoration: none;
+ }
+ .inputs-container .resend-buttons-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+ }
+
+ .inputs-container .resend-buttons-container a:nth-of-type(2) {
+    text-align: right;
+ }
 
     .inputs-container input[type=email], input[type=password] {
         background-color: rgba(0,0,0,0) !important;
@@ -122,11 +178,8 @@ svg {
 
 
 .privacy-parent-container {
-    background-color: #fee2f8;
-    background-image: linear-gradient(90deg, #fee2f8 0%, #dcf8ef 74%);
-    box-shadow: 0px 5px 15px rgba(0,0,0,0.4);
-    width: 70vw;
-    margin-top: 4rem;
+    max-width: 55vw;
+    min-width: 600px;
     border-radius: 20px;
     padding: 3rem;
 }
@@ -154,4 +207,50 @@ min-width: 50vw;
 background-color: white;
 padding: 2.5rem;
 border-radius: 24px;
+}
+
+table {
+	width: 800px;
+	border-collapse: collapse;
+	overflow: hidden;
+	box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+th,
+td {
+	padding: 15px;
+	background-color: rgba(255, 255, 255, 0.678);
+}
+
+th {
+	text-align: left;
+}
+
+thead th{
+	
+		background-color: #e3e7f7;
+	}
+
+tbody tr:hover{
+    background-color: rgba(84, 175, 250, 0.329);
+}
+
+tbody td{
+    position: relative;
+}
+
+tbody td:hover::before{
+    content: "";
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: -9999px;
+				bottom: -9999px;
+				background-color: rgba(84, 175, 250, 0.247);
+				z-index: 1;
+}
+
+
+#download-data{
+    margin-bottom: ;
 }
