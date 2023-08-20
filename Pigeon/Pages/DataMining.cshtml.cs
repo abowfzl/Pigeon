@@ -22,42 +22,42 @@ public class DataMiningModel : PageModel
 
     public async Task<IActionResult> OnGet(CancellationToken cancellationToken)
     {
-        var trainerSet = _apriori.GetTrainingSet();
+        // var trainerSet = _apriori.GetTrainingSet();
 
-        if (!trainerSet.Samples.Any())
-            await _apriori.PrepareModel(cancellationToken);
+        // if (!trainerSet.Samples.Any())
+        //     await _apriori.PrepareModel(cancellationToken);
 
-        var trainer = new Trainer(trainerSet, 60, 75, _logger);
+        // var trainer = new Trainer(trainerSet, 60, 75, _logger);
 
-        _apriori.SetTrainer(trainer);
+        // _apriori.SetTrainer(trainer);
 
-        _apriori.Trainer.Train();
+        // _apriori.Trainer.Train();
 
         return Page();
     }
 
     public IActionResult OnPost()
     {
-        var inputs = Input.Split(",").Select(s => s.Trim());
+        // var inputs = Input.Split(",").Select(s => s.Trim());
         
-        var listOFList = new List<string[]>();
+        // var listOFList = new List<string[]>();
         
-        foreach (var input in inputs)
-        {
-            var inputMatched = _apriori.Trainer.Results.Where(s => s.Key.Contains(input)).OrderBy(s => s.Value.Length).FirstOrDefault().Value;
+        // foreach (var input in inputs)
+        // {
+        //     var inputMatched = _apriori.Trainer.Results.Where(s => s.Key.Contains(input)).OrderBy(s => s.Value.Length).FirstOrDefault().Value;
 
-            listOFList.Add(inputMatched);
-        }
+        //     listOFList.Add(inputMatched);
+        // }
 
-        var response = new List<string>();
+        var response = new List<string>(){ "اصغرر"};
         
-        foreach (var input in listOFList.OrderByDescending(s => s.Length))
-        {
-            if (!response.Any())
-                response.AddRange(input);
+        // foreach (var input in listOFList.OrderByDescending(s => s.Length))
+        // {
+        //     if (!response.Any())
+        //         response.AddRange(input);
 
-            response = response.Intersect(input).ToList();
-        }
+        //     response = response.Intersect(input).ToList();
+        // }
 
         return Content(JsonSerializer.Serialize(response), "application/json");
     }
