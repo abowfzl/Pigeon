@@ -28,7 +28,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation().AddRazorPagesOptions(options =>
 {
-    options.Conventions.AuthorizeFolder("/Ticket");
+    options.Conventions.AuthorizeFolder("/Tickets");
 });
 
 builder.Services.ConfigureApplicationCookie(options =>
