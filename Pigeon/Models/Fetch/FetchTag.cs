@@ -1,7 +1,6 @@
-﻿namespace Pigeon.Models.Fetch
+﻿namespace Pigeon.Models.Fetch;
+
+public class FetchTag
 {
-    public class FetchTag
-    {
-        public string Title { get; set; }
-    }
+    public string Title { get; set; }
 }
