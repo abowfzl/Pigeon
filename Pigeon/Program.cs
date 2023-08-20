@@ -17,6 +17,12 @@ builder.Services.AddDbContext<PigeonDbContext>(options =>
     options.UseLazyLoadingProxies().UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireAdminRole",
+         policy => policy.RequireRole("admin"));
+});
+
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     {
         options.SignIn.RequireConfirmedAccount = true;
@@ -28,7 +34,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation().AddRazorPagesOptions(options =>
 {
-    options.Conventions.AuthorizeFolder("/Tickets");
+    options.Conventions.AuthorizeFolder("/Tickets", "RequireAdminRole");
+    options.Conventions.AuthorizeAreaPage("Identity", "/Account/Register", "RequireAdminRole");
 });
 
 builder.Services.ConfigureApplicationCookie(options =>
