@@ -1,0 +1,29 @@
+﻿<h1>Tickets Assigned To you</h1>
+<br />
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Log Request Detail</th>
+            <th>Created At</th>
+            <th>Work Felow Status</th>
+            <th>Admin Comment</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ticket in Model.Tickets)
+    {
+        <tr>
+                <td>
+                    <a asp-page="LogRequestDetail" asp-route-id="@ticket.LogRequestId" class="btn btn-primary">LogDetail</a>
+                </td>
+                <td>@ticket.CreatedAt.ToString("yyyy/mm/dd hh:mm")</td>
+                <td>@ticket.Status</td>
+                <td>@ticket.AdminComment</td>
+                <td>
+                    <a asp-page="Tickets/Details" asp-route-id="@ticket.Id" class="btn btn-primary">Detail</a>
+                </td>
+            </tr>
+    }
+    </tbody>
+</table>

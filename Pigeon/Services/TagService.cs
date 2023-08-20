@@ -1,25 +1,24 @@
 ﻿using Pigeon.Data;
 using Pigeon.Entities;
 
-namespace Pigeon.Services
+namespace Pigeon.Services;
+
+public class TagService
 {
-    public class TagService
+    private readonly PigeonDbContext _dbContext;
+
+    public TagService(PigeonDbContext dbContext)
     {
-        private readonly PigeonDbContext _dbContext;
-
-        public TagService(PigeonDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
-
-        public async Task InsertTags(IList<Tag> tags, CancellationToken cancellationToken)
-        {
-            tags = tags.DistinctBy(t => t.Title).ToList();
-
-            await _dbContext.Tags.AddRangeAsync(tags, cancellationToken);
-
-            await _dbContext.SaveChangesAsync(cancellationToken);
-        }
-
+        _dbContext = dbContext;
     }
+
+    public async Task InsertTags(IList<Tag> tags, CancellationToken cancellationToken)
+    {
+        tags = tags.DistinctBy(t => t.Title).ToList();
+
+        await _dbContext.Tags.AddRangeAsync(tags, cancellationToken);
+
+        await _dbContext.SaveChangesAsync(cancellationToken);
+    }
+
 }

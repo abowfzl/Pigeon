@@ -4,26 +4,32 @@
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
-    {
-        <li class="nav-item">
+{
+    <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
         </li>
-        <li class="nav-item">
+    <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
                 <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
             </form>
         </li>
-        @if (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Admin"))
-        {
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register New User</a>
-            </li>
-        }
-    }
-    else
+    @if (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Admin"))
     {
         <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register New User</a>
+            </li>
+    }
+    else if (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Specialist"))
+    {
+        <li class="nav-item">
+                <a class="nav-link text-dark" asp-page="/Index">Your Tickets</a>
+            </li>
+    }
+}
+else
+{
+    <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
         </li>
-    }
+}
 </ul>

@@ -1,4 +1,5 @@
-﻿using NuGet.Packaging;
+﻿using Microsoft.AspNetCore.Http;
+using NuGet.Packaging;
 using Pigeon.Contracts;
 using Pigeon.Entities;
 using Pigeon.Services;
@@ -41,16 +42,22 @@ public class LinkCrawler : ICrawler
             var logRequests = new List<LogRequest>();
 
             foreach (var url in urls)
-            {
+           {
                 await Task.Delay(Random.Shared.Next(300, 900), cancellationToken);
 
-                var respose = await _httpClient.GetAsync(url.UrlStr, cancellationToken);
+                bool result = Uri.TryCreate(url.UrlStr, UriKind.Absolute, out var uri);
+
+                if (result is false)
+                {
+                    await _urlService.DeleteUrl(url, cancellationToken);
+                    continue;
+                }
+
+                var respose = await _httpClient.GetAsync(uri, cancellationToken);
 
                 if (respose.IsSuccessStatusCode)
                 {
                     var content = await respose.Content.ReadAsStringAsync(cancellationToken);
-
-                    var uri = new Uri(url.UrlStr);
 
                     var links = await _fetchService.FetchLinksAsync(uri.Scheme + "://" + uri.Host, content, cancellationToken);
 
@@ -63,7 +70,7 @@ public class LinkCrawler : ICrawler
                         UrlId = url.Id
                     }));
 
-                    newUrls = newUrls.Where(u => !urls.Select(s=>s.UrlStr).Contains(u.UrlStr)).DistinctBy(u => u.UrlStr).ToList();
+                    newUrls = newUrls.Where(u => !urls.Select(s => s.UrlStr).Contains(u.UrlStr)).DistinctBy(u => u.UrlStr).ToList();
 
                     newUrls.AddRange(links.Select(l => new Url()
                     {

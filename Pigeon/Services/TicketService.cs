@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Plugins;
 using Pigeon.Data;
 using Pigeon.Entities;
 using Pigeon.Enums;
@@ -49,5 +50,25 @@ public class TicketService
         await _dbContext.SaveChangesAsync(cancellationToken);
 
         await _logRequestService.SetAsReviewed(ticketDto.LogRequestId, cancellationToken);
+    }
+
+    public async Task<IList<Ticket>?> GetAssignedTickets(string userId, CancellationToken cancellationToken)
+    {
+        var tickets = await _dbContext.Tickets.Where(s => s.AssignedTo == userId).ToListAsync(cancellationToken);
+
+        return tickets;
+    }
+
+    public async Task Update(TicketDTO ticketDto, CancellationToken cancellationToken)
+    {
+        var ticket = await _dbContext.Tickets.FindAsync(new object?[] { ticketDto.Id }, cancellationToken: cancellationToken);
+
+        ticket.AdminComment = ticketDto.AdminComment;
+        ticket.LogRequestId = ticketDto.LogRequestId;
+        ticket.Result = ticketDto.Result;
+        ticket.Status = ticketDto.Status;
+        ticket.AssignedTo = ticketDto.AssignedTo;
+
+        await _dbContext.SaveChangesAsync(cancellationToken);
     }
 }

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Pigeon.Algoritms;
 using Pigeon.Contracts;
 using Pigeon.Crawler;
 using Pigeon.Data;
@@ -27,7 +28,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation().AddRazorPagesOptions(options =>
 {
-    options.Conventions.AuthorizeFolder("/Ticket");
+    options.Conventions.AuthorizeFolder("/Tickets");
 });
 
 builder.Services.ConfigureApplicationCookie(options =>
@@ -45,6 +46,7 @@ builder.Services.AddScoped<TicketService>();
 builder.Services.AddScoped<TagService>();
 builder.Services.AddScoped<IndexPageFactory>();
 builder.Services.AddScoped<TicketsFactory>();
+builder.Services.AddSingleton<Apriori>();
 
 builder.Services.AddHostedService<SchedulingBackgroundService>();
 

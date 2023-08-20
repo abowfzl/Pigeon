@@ -27,7 +27,7 @@ public class IndexPageFactory
             CreatedAt = l.CreatedAt,
             CreatorName = l.Url.User.UserName,
             Id = l.Id,
-            Tickets = _ticketsFactory.PrepareTicketDtos(l.Tickets.ToList())
+            HasAnyTicket = l.Tickets.Any()
         }).ToList();
 
         return Task.FromResult(logRequestModel);
@@ -45,7 +45,8 @@ public class IndexPageFactory
             Reviewed = logRequest.Reviewed,
             CreatedAt = logRequest.CreatedAt,
             CreatorName = logRequest?.Url?.User.UserName ?? string.Empty,
-            StatusCodeStr = Enum.GetName(logRequest.StatusCode)
+            StatusCodeStr = Enum.GetName(logRequest.StatusCode),
+            Tickets = _ticketsFactory.PrepareTicketDtos(logRequest.Tickets)
         };
 
         return Task.FromResult(model);

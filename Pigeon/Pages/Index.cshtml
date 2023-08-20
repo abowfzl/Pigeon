@@ -1,54 +1,17 @@
 ﻿@page
 @model IndexModel
+@inject UserManager<IdentityUser> UserManager
 @{
     ViewData["Title"] = "Home page";
 }
 <div class="container mt-5">
-    <h1>Crawled URLs</h1>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>From Url</th>
-                <th>Created At</th>
-                <th>Creator Name</th>
-                <th>Is Reviewed</th>
-                <th>Status Code</th>
-                <th>Details</th>
-                <th>Tickets</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var url in Model.LogRequests)
-            {
-                <tr>
-                    <td>@url.FromUrl</td>
-                    <td>@url.CreatedAt.ToString("yyyy/mm/dd hh:mm")</td>
-                    <td>@url.CreatorName</td>
-                    <td>@url.Reviewed</td>
-                    <td>@url.StatusCodeStr</td>
-                    <td>
-                        <a asp-page="LogRequestDetail" asp-route-id="@url.Id" class="btn btn-primary">Click</a>
-                    </td>
-                    @if (url.Tickets.Any())
-                    {
-                        <td>
-                            @foreach (var ticket in url.Tickets)
-                            {
-
-                                <a asp-page="/Tickets/Details" asp-route-id="@ticket.Id" class="btn btn-primary">@ticket.Id</a>
-                            }
-
-                        </td>
-                    }
-                    else
-                    {
-                        <td>
-                            <a asp-page="/Tickets/New" asp-route-id="@url.Id" class="btn btn-primary">New Ticket</a>
-                        </td>
-                    }
-
-                </tr>
-            }
-        </tbody>
-    </table>
+    @if (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Admin"))
+{
+    <partial name="_AdminIndexPage" />
+}
+else if (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Specialist"))
+{
+    <partial name="_SpecialistIndexPage" />
+}
 </div>
+

@@ -1,4 +1,5 @@
-﻿using Pigeon.Enums;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Pigeon.Enums;
 
 namespace Pigeon.Models.DTOs;
 
@@ -15,4 +16,8 @@ public class TicketDTO
     public string? AdminComment { get; set; }
 
     public string? Result { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+
+    public List<SelectListItem> AvalibleStatus { get; set; }
 }
