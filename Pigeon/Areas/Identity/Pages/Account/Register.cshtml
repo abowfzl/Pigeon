@@ -4,13 +4,13 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>@ViewData["Title"]</h1>
-
-<div class="row form-container">
-    <div class="col-md-12">
+<div class="t-login h-vh form-container">
+    <section class="t-login__container px-3 py-sm-auto">
+        <h1 class="t-24 clr-dark-100 fw-bold text-center mt-2">Register</h1>
+        <hr />
         <form id="registerForm" class="inputs-container" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Create a new account.</h2>
-            <hr />
+
+            <h3 class="t-24 clr-dark-100 fw-bold text-center mt-2">Create a new account</h3>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-floating">
                 <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
@@ -27,9 +27,11 @@
                 <label asp-for="Input.ConfirmPassword"></label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+            <div class="submit-button-container">
+                <button id="registerSubmit" type="submit" class="p-btn p-btn--primary fw-bold mt-45">Register</button>
+            </div>
         </form>
-    </div>
+    </section>
 </div>
 
 @section Scripts {
