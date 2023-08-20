@@ -1,35 +1,46 @@
 ﻿@page
 @model Pigeon.Pages.LogRequestDetailModel
 
-<div class="row">
-    <div class="col-md-4">
-        >
-        <h1 class="t-24 clr-dark-100 fw-bold text-center mt-2">LogRequest Detail: @Model.LogRequest.Id</h1>
-        <div class="d-flex flex-column mt-45">
-            <p class="clr-dark-100 t-14">Creator Name: @Model.LogRequest.CreatorName</p>
-        </div>
-        <div class="d-flex flex-column mt-45">
-            <p class="clr-dark-100 t-14">Created At: @Model.LogRequest.CreatedAt.ToString("F")</p>
-        </div>
-        <div class="d-flex flex-column mt-45">
-            <p class="clr-dark-100 t-14">Response Status Code: @Model.LogRequest.StatusCodeStr</p>
-        </div>
-        <div class="d-flex flex-column mt-45">
-            <p class="clr-dark-100 t-14">Url: <a href="@Model.LogRequest.FromUrl">@Model.LogRequest.FromUrl</a> </p>
-        </div>
-        <div class="d-flex flex-column mt-45">
-            <p class="clr-dark-100 t-14">Is Reviewed: @Model.LogRequest.Reviewed</p>
-        </div>
-        @if (Model.LogRequest.Tickets.Any())
-    {
-        <div class="d-flex flex-column mt-45">
-                <p class="clr-dark-100 t-14">Tickets</p>
-            </div>
-        @foreach (var ticket in Model.LogRequest.Tickets)
-        {
-            <a asp-page="/Tickets/Details" asp-route-id="@ticket.Id" class="btn btn-primary">@ticket.Id, Status:@ticket.Status</a>
-        }
-    }
+<div class="t-login h-vh form-container">
+    <section class="t-login__container px-3 py-sm-auto">
 
-    </div>
+        <h1 class="t-24 clr-dark-100 fw-bold text-center mt-2">LogRequest Detail: @Model.LogRequest.Id</h1>
+        <hr />
+
+        <div class="d-flex flex-column mt-45">
+            <p class="clr-dark-100 t-14"><strong>Creator Name:</strong> @Model.LogRequest.CreatorName</p>
+        </div>
+        <hr />
+        <div class="d-flex flex-column mt-45">
+            <p class="clr-dark-100 t-14"><strong>Created At:</strong> @Model.LogRequest.CreatedAt.ToString("F")</p>
+        </div>
+        <hr />
+
+        <div class="d-flex flex-column mt-45">
+            <p class="clr-dark-100 t-14"><strong>Response Status Code: </strong>@Model.LogRequest.StatusCodeStr</p>
+        </div>
+        <hr />
+
+        <div class="d-flex flex-column mt-45">
+            <p class="clr-dark-100 t-14"><strong>Url:</strong> <a class="nav-link" href="@Model.LogRequest.FromUrl">@Model.LogRequest.FromUrl</a> </p>
+        </div>
+        <hr />
+
+        <div class="d-flex flex-column mt-45">
+            <p class="clr-dark-100 t-14"><strong>Is Reviewed:</strong> @Model.LogRequest.Reviewed</p>
+        </div>
+        <hr />
+
+        @if (Model.LogRequest.Tickets.Any())
+        {
+            <div class="d-flex flex-column mt-45">
+                <strong class="clr-dark-100 t-14">Tickets:</strong>
+            </div>
+            @foreach (var ticket in Model.LogRequest.Tickets)
+            {
+                <a asp-page="/Tickets/Details" asp-route-id="@ticket.Id" class="nav-link">@ticket.Id, Status:@ticket.Status</a>
+            }
+        }
+
+    </section>
 </div>

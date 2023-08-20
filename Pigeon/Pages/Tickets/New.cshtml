@@ -1,23 +1,28 @@
 ﻿@page
 @model Pigeon.Pages.Tickets.NewModel
 
-<div class="row">
-    <div class="col-md-4">
-        <form class="w-100" asp-page="Ticket/New" method="post">
-            <input asp-for="TicketModel.LogRequestId" hidden="hidden"/>
+<div class="t-login h-vh form-container">
+    <section class="t-login__container px-3 py-sm-auto">
+        <form asp-page="Ticket/New" method="post">
+            <input asp-for="TicketModel.LogRequestId" hidden="hidden" />
             <h1 class="t-24 clr-dark-100 fw-bold text-center mt-2">New Ticket</h1>
-            <div class="d-flex flex-column mt-45">
-                <label class="clr-dark-100 t-14" asp-for="TicketModel.AdminComment">Comment</label>
-                <input class="p-input p-input--primary" type="text" asp-for="TicketModel.AdminComment" placeholder="wirite your comment" />
+            <hr />
+            <div class="inputs-container">
+
+                <div class="d-flex flex-column">
+                    <label class="clr-dark-100 t-14" asp-for="TicketModel.AdminComment">Comment</label>
+                    <input class="p-input p-input--primary" type="text" asp-for="TicketModel.AdminComment" placeholder="wirite your comment" />
+                </div>
+                <div class="d-flex flex-column">
+                    <label class="clr-dark-100 t-14" asp-for="TicketModel.AssignedTo">Assigned To</label>
+                    <select asp-for="TicketModel.AssignedTo" asp-items="@Model.TicketModel.Users">
+                        <option value="">Pick one</option>
+                    </select>
+                </div>
+                <div class="submit-button-container">
+                    <button type="submit" class="p-btn p-btn--primary fw-bold mt-45">Submit</button>
+                </div>
             </div>
-            <div class="d-flex flex-column mt-45">
-                <select asp-for="TicketModel.AssignedTo" asp-items="@Model.TicketModel.Users">
-                    <option value="">Pick one</option>
-                </select>
-            </div>
-            <button class="p-btn p-btn--primary fw-bold w-100 mt-45" type="submit">
-                Submit
-            </button>
         </form>
-    </div>
+    </section>
 </div>

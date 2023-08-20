@@ -1,15 +1,20 @@
 ﻿@page
 @model Pigeon.Pages.DataMiningModel
 
-<div class="row">
-    <h1 class="text-danger">Data Mining Project</h1>
-    <form class="w-100" asp-page="DataMining" method="post" id="data-mining-form">
-        <div class="col-md-4">
-            <label class="clr-dark-100 t-14" asp-for="Input">Input</label>
-            <input class="p-input p-input--primary" id="data-mining-input" type="text" asp-for="Input" placeholder="wirite your keyword" />
-            <button class="p-btn p-btn--primary fw-bold w-100 mt-45" type="submit">
-                Submit
-            </button>   
-        </div>
-    </form>
+<div class="t-login h-vh form-container">
+    <section class="t-login__container px-3 py-sm-auto">
+        <h1 class="t-24 clr-dark-100 fw-bold text-center mt-2">Data Mining Project</h1>
+        <hr />
+        <form asp-page="DataMining" method="post" id="data-mining-form">
+            <div class="inputs-container">
+                <div class="d-flex flex-column">
+                    <label class="clr-dark-100 t-14" asp-for="Input">Input</label>
+                    <input class="p-input p-input--primary" id="data-mining-input" type="text" asp-for="Input" placeholder="wirite your keyword" />
+                </div>
+                <div class="submit-button-container">
+                    <button type="submit" class="p-btn p-btn--primary fw-bold mt-45">Submit</button>
+                </div>
+            </div>
+        </form>
+    </section>
 </div>

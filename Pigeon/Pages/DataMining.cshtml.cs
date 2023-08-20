@@ -22,43 +22,49 @@ public class DataMiningModel : PageModel
 
     public async Task<IActionResult> OnGet(CancellationToken cancellationToken)
     {
-        // var trainerSet = _apriori.GetTrainingSet();
+        var trainerSet = _apriori.GetTrainingSet();
 
-        // if (!trainerSet.Samples.Any())
-        //     await _apriori.PrepareModel(cancellationToken);
+        if (!trainerSet.Samples.Any())
+        {
+            await _apriori.PrepareModel(cancellationToken);
 
-        // var trainer = new Trainer(trainerSet, 60, 75, _logger);
+            var trainer = new Trainer(trainerSet, 60, 75, _logger);
 
-        // _apriori.SetTrainer(trainer);
+            _apriori.SetTrainer(trainer);
 
-        // _apriori.Trainer.Train();
+            _apriori.Trainer.Train();
+        }
 
         return Page();
     }
 
     public IActionResult OnPost()
     {
-        // var inputs = Input.Split(",").Select(s => s.Trim());
-        
-        // var listOFList = new List<string[]>();
-        
-        // foreach (var input in inputs)
-        // {
-        //     var inputMatched = _apriori.Trainer.Results.Where(s => s.Key.Contains(input)).OrderBy(s => s.Value.Length).FirstOrDefault().Value;
+        var response = new List<string>();
 
-        //     listOFList.Add(inputMatched);
-        // }
+        if (!string.IsNullOrEmpty(Input))
+        {
+            var inputs = Input.Split(",").Select(s => s.Trim());
 
-        var response = new List<string>(){ "اصغرر"};
-        
-        // foreach (var input in listOFList.OrderByDescending(s => s.Length))
-        // {
-        //     if (!response.Any())
-        //         response.AddRange(input);
+            var listOFList = new List<List<string>>();
 
-        //     response = response.Intersect(input).ToList();
-        // }
+            foreach (var input in inputs)
+            {
+                var inputMatched = _apriori.Trainer.Results.OrderBy(s => s.Ins.Count).Where(s => s.Ins.Contains(input)).FirstOrDefault()?.Outs.ToList();
 
-        return Content(JsonSerializer.Serialize(response), "application/json");
+                if (inputMatched is not null)
+                    listOFList.Add(inputMatched);
+            }
+
+            foreach (var input in listOFList.OrderByDescending(s => s.Count))
+            {
+                if (!response.Any())
+                    response.AddRange(input);
+
+                response = response.Intersect(input).ToList();
+            }
+        }
+
+        return Content(JsonSerializer.Serialize(response.FirstOrDefault()), "application/json");
     }
 }
