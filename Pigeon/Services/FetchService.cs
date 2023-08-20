@@ -18,15 +18,21 @@ public class FetchService
             {
                 Url = s.Value
             })
-            .Where(s => !s.Url.Contains("ads"))
+            .Where(s => s.Url.StartsWith("/fa/news/"))
             .ToList();
 
-        fetchedLinks.ForEach(s =>
-        {
-            if (!s.Url.StartsWith("www.") && !s.Url.StartsWith("http"))
-                s.Url = baseAddress.TrimEnd('/') + s.Url;
+        fetchedLinks = fetchedLinks.Where(s => !s.Url.StartsWith("www.") && !s.Url.StartsWith("http")).ToList();
 
-        });
+        foreach (var fetchedLink in fetchedLinks)
+        {
+            fetchedLink.Url = baseAddress.TrimEnd('/') + fetchedLink.Url;
+            bool result = Uri.TryCreate(fetchedLink.Url, UriKind.Absolute, out var uri);
+
+            if (result is false)
+            {
+                fetchedLinks.Remove(fetchedLink);
+            }
+        }
 
         return await Task.FromResult(fetchedLinks);
     }
@@ -40,7 +46,7 @@ public class FetchService
         if (tagsDiv == null)
             return await Task.FromResult(new List<FetchTag>());
 
-        var fetchedTags = tagsDiv.Select(s => s.ChildNodes["a"])
+        var fetchedTags = tagsDiv.SelectMany(s => s.ChildNodes.Where(s => s.Name == "a"))
             .DistinctBy(s => s.InnerText)
             .Select(s => new FetchTag()
             {

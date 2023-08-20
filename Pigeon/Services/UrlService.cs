@@ -20,11 +20,18 @@ public class UrlService
         return urls;
     }
 
+    public async Task DeleteUrl(Url url, CancellationToken cancellationToken)
+    {
+        _pigeonDbContext.Urls.Remove(url);
+
+        await _pigeonDbContext.SaveChangesAsync(cancellationToken);
+    }
+
     public async Task InsertUrls(IList<Url> urls, CancellationToken cancellationToken)
     {
-        var existedUrls = await _pigeonDbContext.Urls.Select(s=>s.UrlStr).ToListAsync(cancellationToken);
+        var existedUrls = await _pigeonDbContext.Urls.Select(s => s.UrlStr).ToListAsync(cancellationToken);
 
-        urls = urls.Where(u => !existedUrls.Contains(u.UrlStr)).DistinctBy(u=>u.UrlStr).ToList();
+        urls = urls.Where(u => !existedUrls.Contains(u.UrlStr)).DistinctBy(u => u.UrlStr).ToList();
 
         await _pigeonDbContext.AddRangeAsync(urls, cancellationToken);
 
