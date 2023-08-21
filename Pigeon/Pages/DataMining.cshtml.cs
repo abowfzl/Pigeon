@@ -17,8 +17,10 @@ public class DataMiningModel : PageModel
         _logger = logger;
     }
 
-    [BindProperty]
-    public string Input { get; set; }
+    public class DataMiningInput
+    {
+        public string Input { get; set; } = string.Empty;
+    }
 
     public async Task<IActionResult> OnGet(CancellationToken cancellationToken)
     {
@@ -38,13 +40,13 @@ public class DataMiningModel : PageModel
         return Page();
     }
 
-    public IActionResult OnPost()
+    public IActionResult OnPost([FromBody] DataMiningInput Input)
     {
         var response = new List<string>();
 
-        if (!string.IsNullOrEmpty(Input))
+        if (Input != null && !string.IsNullOrEmpty(Input.Input))
         {
-            var inputs = Input.Split(",").Select(s => s.Trim());
+            var inputs = Input.Input.Split(",").Select(s => s.Trim());
 
             var listOFList = new List<List<string>>();
 
