@@ -35,6 +35,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation().AddRazorPagesOptions(options =>
 {
     options.Conventions.AuthorizeFolder("/Tickets", "RequireAdminRole");
+    options.Conventions.AllowAnonymousToPage("/Tickets/Details");
     options.Conventions.AuthorizeAreaPage("Identity", "/Account/Register", "RequireAdminRole");
 });
 
