@@ -247,5 +247,5 @@ tbody td:hover::before{
 				top: -9999px;
 				bottom: -9999px;
 				background-color: rgba(84, 175, 250, 0.247);
-				z-index: 1;
+				z-index: -1;
 }
