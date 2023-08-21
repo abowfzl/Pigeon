@@ -11,7 +11,7 @@ public sealed class Trainer
 
     private readonly ILogger _logger;
 
-    public Dictionary<string[], string[]> Results { get; private set; }
+    public IList<TrainerResult> Results { get; private set; }
 
     public Trainer(TrainingSet set, int support, int confidence, ILogger logger)
     {
@@ -23,7 +23,7 @@ public sealed class Trainer
 
         _logger = logger;
 
-        Results = new Dictionary<string[], string[]>();
+        Results = new List<TrainerResult>();
     }
 
     public void Train()
@@ -33,16 +33,14 @@ public sealed class Trainer
         _logger.LogInformation($"support(threshold) = %{m_support}");
         _logger.LogInformation($"trust(threshold)  = %{m_confidence}");
 
-        PrintCounts(productCounts, "Support Values");
         productCounts = RemoveThreshold(productCounts);
-        PrintCounts(productCounts, "Products with equal to or greater than the threshold support value");
 
         Dictionary<string[], int> grouped = GroupProducts(productCounts);
-        //PrintGroups(grouped, "Support values for dual product groups");
+
         grouped = RemoveThreshold(grouped);
-        //PrintGroups(grouped, "Two product groups with equal to or greater than the threshold support value");
+
         grouped = MergeGroupProducts(grouped);
-        //PrintGroups(grouped, "Three product groups with equal to or greater than the threshold support value");
+
         PrintFinalValues(grouped);
     }
 
@@ -82,24 +80,12 @@ public sealed class Trainer
                     outs[i] = tmp;
                 }
 
-
                 PrintThresholdRule(keys, ins, outs);
 
                 index++;
             }
         }
         _logger.LogInformation("---------------------------------------------------------------------------------------------");
-    }
-
-    private void PrintThresholdRule(string[] keys, string[] ins, string[] outs)
-    {
-        int XYZ = GetGroupCountInSamples(keys);
-        int N = GetGroupCountInSamples(ins);
-        double possibility = (double)XYZ / (double)N * 100;
-        _logger.LogInformation($"trust({string.Join(",", ins)} -> {string.Join(",", outs)})");
-        _logger.LogInformation($"The probability of being [{string.Join(",", outs)}] on the product set [{string.Join(",", ins)}] \t%{possibility}");
-
-        Results.Add(ins, outs);
     }
 
     private Dictionary<string[], int> MergeGroupProducts(Dictionary<string[], int> grouped)
@@ -144,6 +130,21 @@ public sealed class Trainer
         return temp;
     }
 
+    private void PrintThresholdRule(string[] keys, string[] ins, string[] outs)
+    {
+        int XYZ = GetGroupCountInSamples(keys);
+        int N = GetGroupCountInSamples(ins);
+        double result = (double)XYZ / (double)N * 100;
+
+        var trainerResult = new TrainerResult()
+        {
+            Ins = ins,
+            Outs = outs,
+            Percentage = 100
+        };
+        Results.Add(trainerResult);
+    }
+
     private int GetGroupCountInSamples(string[] head)
     {
         int temp = 0;
@@ -155,33 +156,6 @@ public sealed class Trainer
             }
         }
         return temp;
-    }
-
-    private void PrintCounts(Dictionary<string, int> productCounts, string title)
-    {
-        _logger.LogInformation(title);
-
-        _logger.LogInformation("Products\t\tCount");
-
-        foreach (KeyValuePair<string, int> product in productCounts)
-        {
-            _logger.LogInformation($"count({product.Key})\t{product.Value}");
-        }
-
-        _logger.LogInformation("---------------------------------------------------------------------------------------------");
-    }
-
-    private void PrintGroups(Dictionary<string[], int> productCounts, string title)
-    {
-        _logger.LogInformation(title);
-
-        _logger.LogInformation("Products\t\tCount");
-
-        foreach (KeyValuePair<string[], int> product in productCounts)
-        {
-            _logger.LogInformation($"{string.Join(",", product.Key)}\t{product.Value}");
-        }
-        _logger.LogInformation("---------------------------------------------------------------------------------------------");
     }
 
     private static Dictionary<string, int> RemoveThreshold(Dictionary<string, int> productCounts)
